@@ -16,3 +16,4 @@ Thumbs.db
 dotfiles.sublime-project
 dotfiles.sublime-workspace
 vim/.netrwhist
+!bin
