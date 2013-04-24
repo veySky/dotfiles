@@ -17,3 +17,4 @@ dotfiles.sublime-project
 dotfiles.sublime-workspace
 vim/.netrwhist
 !bin
+vim/bundle/
