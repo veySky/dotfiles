@@ -46,3 +46,7 @@ _load_settings "$HOME/.zsh/configs"
 
 # aliases
 [[ -f ~/.aliases ]] && source ~/.aliases
+export QB=root,10.153.168.61,22
+export M2_HOME=/Users/baishuanglin/Applications/apache-maven-3.6.0
+export JMETER_HOME=/Users/baishuanglin/Library/Jmeter
+export PATH=$PATH:$M2_HOME/bin:$JMETER_HOME:$JMETER_HOME/bin

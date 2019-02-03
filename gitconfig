@@ -12,11 +12,47 @@
   co = checkout
   pf = push --force-with-lease
   st = status
+  ec = config --global -e
+  up = !git pull --rebase --prune $@ && git submodule update --init --recursive
+  cob = checkout -b
+  cm = !git add -A && git commit -m
+  save = !git add -A && git commit -m 'SAVEPOINT'
+  wip = !git add -u && git commit -m "WIP"
+  undo = reset HEAD~1 --mixed
+  amend = commit -a --amend
+  wipe = !git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
+  bclean = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs git branch -d; }; f"
+  bdone = "!f() { git checkout ${1-master} && git up && git bclean ${1-master}; }; f"
+  la = "!git config -l | grep alias | cut -c 7-"
+  l = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
+  ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+  lll = log -u
+  diffc = diff --cached HEAD^
+  st = "!git status -s | cat -n"
+  s = "!stage() { git add `git st | sed -n $1p | awk -F' ' '{ print $2 }'`; git st; }; stage"
+  u = "!unstage() { git reset HEAD `git st | sed -n $1p | awk -F' ' '{ print $2 }'`; git st; }; unstage"
+  aa = !git add -u && git add . && git st
+  cm = "!cm() { git commit -m \"$1\"; }; cm"
+  ca = commit --amend --no-edit
+  mb = checkout -B
+  cb = "!cb() { git checkout $1 -- $2; }; cb"
+  re1 = reset HEAD^
+  reh = reset --hard
+  rec = !git reh && git clean -fd
+  ri = "!ri() { git rebase -i HEAD~$1; }; ri"
+  grep = grep -Ii
+  f = "!git ls-files | grep --color -i"
+  addx = update-index --chmod=+x
+  review = "!review() { git push origin HEAD:refs/for/$1; }; review"
+  draft = "!draft() { git push origin HEAD:refs/drafts/$1; }; draft"
+  k = !gitk
+  who = shortlog -n -s --no-merges
+
 [core]
-  excludesfile = ~/.gitignore
+	excludesfile = /Users/baishuanglin/.gitignore
   autocrlf = input
 [merge]
-  ff = only
+#  ff = only
 [commit]
   template = ~/.gitmessage
 [fetch]
@@ -27,3 +63,12 @@
   path = ~/.gitconfig.local
 [diff]
   colorMoved = zebra
+[user]
+	name = baishuanglin
+	email = baishuanglin@qiyi.com
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
